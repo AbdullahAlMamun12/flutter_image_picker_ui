@@ -1,39 +1,123 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# 📸 flutter\_image\_picker\_ui
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+A modern and customizable image picker UI for Flutter, built on top of the popular `image_picker` plugin.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+This widget provides a clean, user-friendly interface for selecting images from the camera or gallery — with support for previews, icons, and styling options.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+---
 
-## Features
+## ✨ Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+* Pick image from camera or gallery
+* Show image preview with clear (X) button
+* Fully customizable styles, icons, and text
+* Dotted border with optional icon or title
+* Designed to be **developer-friendly**
 
-## Getting started
+---
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## 🚀 Installation
 
-## Usage
+Add this to your `pubspec.yaml`:
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+```yaml
+dependencies:
+  flutter_image_picker_ui: 1.0.0 # or use the latest version
 ```
 
-## Additional information
+Run:
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```bash
+flutter pub get
+```
+
+---
+
+## 📦 Assets Required
+
+Make sure to include these in your `pubspec.yaml`:
+
+```yaml
+flutter:
+  assets:
+    - assets/camera_fill.png
+    - assets/camera_outline.png
+    - assets/gallery_upload.png
+```
+
+---
+
+## 🧪 Example Usage (Default)
+
+```dart
+PhotoUploadWidget(
+  onImagePicked: (File? image) {
+    if (image != null) {
+      print("Image picked: \${image.path}");
+    } else {
+      print("Image cleared");
+    }
+  },
+)
+```
+
+You can optionally customize the button text styles, icons, and paddings through the default constructor.
+
+---
+
+## 🎨 Fully Custom Widget Example
+
+```dart
+PhotoUploadWidget.custom(
+  onImagePicked: (image) {
+    // handle image or null
+  },
+  title: 'Upload ID Photo',
+  subtitle: 'PNG or JPG under 5MB',
+  titleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  subtitleStyle: TextStyle(color: Colors.grey),
+  cameraBtnDecoration: ElevatedButton.styleFrom(...),
+  galleryBtnDecoration: OutlinedButton.styleFrom(...),
+  cameraIcon: Icon(Icons.photo_camera),
+  galleryIcon: Icon(Icons.folder),
+  borderStyle: PhotoUploadBorderStyle.roundedRect,
+  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+)
+```
+
+---
+
+## 📸 Screenshot
+
+> (Add screenshots in your /screenshots folder and link them here)
+
+---
+
+## 📚 API Overview
+
+| Prop                   | Type                     | Description                          |
+| ---------------------- | ------------------------ | ------------------------------------ |
+| `onImagePicked`        | `Function(File?)`        | Called with image or `null` on clear |
+| `title` / `subtitle`   | `String`                 | Shown above the button               |
+| `cameraBtnDecoration`  | `ButtonStyle`            | Style for camera button              |
+| `galleryBtnDecoration` | `ButtonStyle`            | Style for gallery button             |
+| `cameraIcon`           | `Widget?`                | Optional camera button icon          |
+| `galleryIcon`          | `Widget?`                | Optional gallery button icon         |
+| `icon`                 | `Widget?`                | Optional top icon                    |
+| `borderStyle`          | `PhotoUploadBorderStyle` | Shape of the dotted border           |
+| `padding`              | `EdgeInsetsGeometry`     | Padding around content               |
+
+---
+
+## 📤 Clear Button Behavior
+
+When an image is selected, a small `X` button appears in the top-right corner. Clicking it:
+
+* Clears the preview
+* Calls the `onImagePicked(null)` callback
+
+---
+
+## 📄 License
+
+MIT License © 2025

@@ -1,6 +1,5 @@
 name: flutter_image_picker_ui
 description: A Flutter package for a UI to pick or take images
-author: Abdullah Al Mamun <al-mamun12@hotmail.com>
 version: 0.0.1
 homepage: https://github.com/AbdullahAlMamun12/flutter_image_picker_ui
 repository: https://github.com/AbdullahAlMamun12/flutter_image_picker_ui
@@ -11,8 +10,10 @@ environment:
   flutter: ">=3.10.0"
 
 dependencies:
+  dotted_border: ^3.1.0
   flutter:
     sdk: flutter
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -22,11 +23,6 @@ dev_dependencies:
 flutter:
   assets:
     - assets/upload.png
-    - assets/camera.png
-  plugin:
-    platforms:
-      android:
-        package: com.al.mamun.flutter_image_picker_ui
-        pluginClass: FlutterImagePickerUIPlugin
-      ios:
-        pluginClass: FlutterImagePickerUIPlugin
+    - assets/gallery_upload.png
+    - assets/camera_outline.png
+    - assets/camera_fill.png

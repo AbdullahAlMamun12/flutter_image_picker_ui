@@ -7,7 +7,8 @@ This widget provides a clean, user-friendly interface for selecting images from 
 ---
 
 ## 📸 Screenshot
-![Slide Demo](https://raw.githubusercontent.com/AbdullahAlMamun12/slide_to_submit/refs/heads/main/screenshots/demo.gif)
+
+<img src="https://raw.githubusercontent.com/AbdullahAlMamun12/flutter_image_picker_ui/f2c66e58a75d2c56a4ee61b7389724f55ffac469/screenshots/demo.jpeg" alt="Preview" width="180" height="350" />
 
 ---
 
@@ -60,18 +61,8 @@ You can optionally customize the button text styles, icons, and paddings through
 
 ```dart
 PhotoUploadWidget.custom(
-  onImagePicked: (File? image) {
-    setState(() {
-      _customWidgetImage = image;
-    });
-    if (image != null) {
-      _showSnackBar('Custom Widget: Image picked!');
-    } else {
-      _showSnackBar('Custom Widget: Image cleared or cancelled.');
-    }
-  },
+  onImagePicked: (File? image) {},
 
-  // A custom icon when no image is selected.
   icon: Container(
     padding: const EdgeInsets.all(12),
     decoration: BoxDecoration(
@@ -101,7 +92,6 @@ PhotoUploadWidget.custom(
 
   padding: const EdgeInsets.all(24),
 
-  // Custom button styles.
   cameraBtnDecoration: ElevatedButton.styleFrom(
     backgroundColor: Colors.green.shade700,
     foregroundColor: Colors.white,
@@ -121,7 +111,6 @@ PhotoUploadWidget.custom(
     ),
   ),
 
-  // Custom icons for buttons.
   cameraIcon: const Icon(Icons.photo_camera, size: 20),
   galleryIcon: const Icon(Icons.photo_library, size: 20),
 );

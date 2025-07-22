@@ -27,5 +27,3 @@ All notable changes to the `flutter_image_picker_ui` package will be documented 
 * Easily embeddable in forms and profile editors
 
 ---
-
-> Maintained with ❤️ by the flutter\_image\_picker\_ui team.

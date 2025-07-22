@@ -144,4 +144,14 @@ When an image is selected, a small `X` button appears in the top-right corner. C
 
 ## 📄 License
 
-MIT License © 2025
+[MIT](LICENSE) © Abdullah Al Mamun
+
+---
+
+## 👥 Maintainer
+
+- [Abdullah Al Mamun](https://github.com/AbdullahAlMamun12)
+
+---
+
+> Made with ❤️ using Flutter.

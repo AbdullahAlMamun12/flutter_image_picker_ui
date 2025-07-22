@@ -31,6 +31,11 @@ dependencies:
   flutter_image_picker_ui: 1.0.0 # or use the latest version
 ```
 
+## Setup Requirement
+
+> ⚠️ This package uses the [`image_picker`](https://pub.dev/packages/image_picker) plugin under the hood. Make sure to follow its [official native configuration guide](https://pub.dev/packages/image_picker#installation) for Android and iOS setup before using this widget.
+
+
 Run:
 
 ```bash

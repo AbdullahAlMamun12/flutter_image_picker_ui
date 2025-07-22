@@ -6,6 +6,11 @@ This widget provides a clean, user-friendly interface for selecting images from 
 
 ---
 
+## 📸 Screenshot
+![Slide Demo](https://raw.githubusercontent.com/AbdullahAlMamun12/slide_to_submit/refs/heads/main/screenshots/demo.gif)
+
+---
+
 ## ✨ Features
 
 * Pick image from camera or gallery
@@ -33,20 +38,6 @@ flutter pub get
 
 ---
 
-## 📦 Assets Required
-
-Make sure to include these in your `pubspec.yaml`:
-
-```yaml
-flutter:
-  assets:
-    - assets/camera_fill.png
-    - assets/camera_outline.png
-    - assets/gallery_upload.png
-```
-
----
-
 ## 🧪 Example Usage (Default)
 
 ```dart
@@ -69,27 +60,72 @@ You can optionally customize the button text styles, icons, and paddings through
 
 ```dart
 PhotoUploadWidget.custom(
-  onImagePicked: (image) {
-    // handle image or null
+  onImagePicked: (File? image) {
+    setState(() {
+      _customWidgetImage = image;
+    });
+    if (image != null) {
+      _showSnackBar('Custom Widget: Image picked!');
+    } else {
+      _showSnackBar('Custom Widget: Image cleared or cancelled.');
+    }
   },
-  title: 'Upload ID Photo',
-  subtitle: 'PNG or JPG under 5MB',
-  titleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-  subtitleStyle: TextStyle(color: Colors.grey),
-  cameraBtnDecoration: ElevatedButton.styleFrom(...),
-  galleryBtnDecoration: OutlinedButton.styleFrom(...),
-  cameraIcon: Icon(Icons.photo_camera),
-  galleryIcon: Icon(Icons.folder),
-  borderStyle: PhotoUploadBorderStyle.roundedRect,
-  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-)
+
+  // A custom icon when no image is selected.
+  icon: Container(
+    padding: const EdgeInsets.all(12),
+    decoration: BoxDecoration(
+      shape: BoxShape.rectangle,
+      color: Colors.blueGrey[50],
+      borderRadius: const BorderRadius.all(Radius.circular(8)),
+    ),
+    child: const Icon(
+      Icons.add_a_photo_outlined,
+      size: 32,
+      color: Colors.blueGrey,
+    ),
+  ),
+
+  title: 'Upload your profile photo',
+  titleStyle: const TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+  ),
+
+  subtitle: 'PNG or JPG, up to 5MB',
+  subtitleStyle: const TextStyle(
+    fontSize: 14,
+    color: Colors.grey,
+  ),
+
+  padding: const EdgeInsets.all(24),
+
+  // Custom button styles.
+  cameraBtnDecoration: ElevatedButton.styleFrom(
+    backgroundColor: Colors.green.shade700,
+    foregroundColor: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+  ),
+
+  galleryBtnDecoration: OutlinedButton.styleFrom(
+    foregroundColor: Colors.green.shade700,
+    side: BorderSide(
+      color: Colors.green.shade700,
+      width: 2,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+  ),
+
+  // Custom icons for buttons.
+  cameraIcon: const Icon(Icons.photo_camera, size: 20),
+  galleryIcon: const Icon(Icons.photo_library, size: 20),
+);
 ```
-
----
-
-## 📸 Screenshot
-
-> (Add screenshots in your /screenshots folder and link them here)
 
 ---
 
@@ -104,7 +140,6 @@ PhotoUploadWidget.custom(
 | `cameraIcon`           | `Widget?`                | Optional camera button icon          |
 | `galleryIcon`          | `Widget?`                | Optional gallery button icon         |
 | `icon`                 | `Widget?`                | Optional top icon                    |
-| `borderStyle`          | `PhotoUploadBorderStyle` | Shape of the dotted border           |
 | `padding`              | `EdgeInsetsGeometry`     | Padding around content               |
 
 ---

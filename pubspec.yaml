@@ -27,9 +27,9 @@ flutter:
     - assets/camera_outline.png
     - assets/camera_fill.png
 topics:
-  - image picker
-  - image picker ui
-  - image picker widget
+  - image-picker
+  - image-picker ui
+  - image-picker-widget
 
 screenshots:
   - description: "Photo upload UI with options to pick from gallery or take a photo"

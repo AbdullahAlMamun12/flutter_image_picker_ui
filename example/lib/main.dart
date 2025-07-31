@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
 
 // Global key for the ScaffoldMessengerState to show SnackBars.
 final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
-GlobalKey<ScaffoldMessengerState>();
+    GlobalKey<ScaffoldMessengerState>();
 
 /// Displays a SnackBar with the provided message.
 void _showSnackBar(String message) {
@@ -104,10 +104,7 @@ class _PhotoUploadExampleScreenState extends State<PhotoUploadExampleScreen> {
 
   /// Builds a section title widget.
   Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      style: Theme.of(context).textTheme.titleLarge,
-    );
+    return Text(title, style: Theme.of(context).textTheme.titleLarge);
   }
 
   /// Builds the default widget with the callback to handle image picking.
@@ -118,9 +115,11 @@ class _PhotoUploadExampleScreenState extends State<PhotoUploadExampleScreen> {
         setState(() {
           _defaultWidgetImage = image;
         });
-        _showSnackBar(image != null
-            ? 'Default Widget: Image picked!'
-            : 'Default Widget: Image selection cleared or cancelled.');
+        _showSnackBar(
+          image != null
+              ? 'Default Widget: Image picked!'
+              : 'Default Widget: Image selection cleared or cancelled.',
+        );
       },
     );
   }
@@ -132,9 +131,11 @@ class _PhotoUploadExampleScreenState extends State<PhotoUploadExampleScreen> {
         setState(() {
           _customWidgetImage = image;
         });
-        _showSnackBar(image != null
-            ? 'Custom Widget: Image picked!'
-            : 'Custom Widget: Image cleared or cancelled.');
+        _showSnackBar(
+          image != null
+              ? 'Custom Widget: Image picked!'
+              : 'Custom Widget: Image cleared or cancelled.',
+        );
       },
       icon: _buildCustomIcon(),
       title: 'Upload your profile photo',
@@ -180,7 +181,11 @@ class _PhotoUploadExampleScreenState extends State<PhotoUploadExampleScreen> {
       imageFile == null
           ? 'No image selected.'
           : '$label ${imageFile.path.split('/').last}',
-      style: const TextStyle(fontSize: 12, color: Colors.blueGrey, fontStyle: FontStyle.italic),
+      style: const TextStyle(
+        fontSize: 12,
+        color: Colors.blueGrey,
+        fontStyle: FontStyle.italic,
+      ),
       textAlign: TextAlign.center,
     );
   }

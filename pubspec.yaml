@@ -26,7 +26,12 @@ flutter:
     - assets/gallery_upload.png
     - assets/camera_outline.png
     - assets/camera_fill.png
+topics:
+  - image_picker
+  - image picker
+  - image picker ui
+  - image piker wiget
 
 screenshots:
   - description: "Photo upload UI with options to pick from gallery or take a photo"
-    path: screenshots/demo.gif
+    path: screenshots/demo.jpeg

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'controller.dart';
 
 /// A customizable Flutter widget for picking images from camera or gallery.
 ///
@@ -12,6 +13,11 @@ import 'package:dotted_border/dotted_border.dart';
 /// The widget uses `image_picker` for image selection and `dotted_border`
 /// for a visually distinct border.
 class PhotoUploadWidget extends StatefulWidget {
+
+  /// The [PhotoUploadController] passed into the callback can be used
+  /// to programmatically reset or clear the image.
+  final void Function(PhotoUploadController controller)? onCreate;
+
   /// Callback function that is called when an image is picked or cleared.
   /// It provides the [File] object of the picked image, or `null` if no image
   /// is picked or if the picked image is cleared.
@@ -67,6 +73,7 @@ class PhotoUploadWidget extends StatefulWidget {
     required this.cameraIcon,
     required this.galleryIcon,
     this.icon,
+    this.onCreate
   });
 
   /// Default factory constructor for `PhotoUploadWidget`.
@@ -93,6 +100,8 @@ class PhotoUploadWidget extends StatefulWidget {
     Widget? cameraIcon,
     Widget? galleryIcon,
     Widget? icon,
+    PhotoUploadController? controller,
+    final void Function(PhotoUploadController controller)? onCreate,
     EdgeInsetsGeometry padding = const EdgeInsets.all(20),
   }) {
     // Define default camera button style
@@ -115,6 +124,7 @@ class PhotoUploadWidget extends StatefulWidget {
       textStyle: galleryBtnTextStyle,
     );
 
+    // Return the widget with customized or default values
     return PhotoUploadWidget._internal(
       key: key,
       onImagePicked: onImagePicked,
@@ -122,6 +132,7 @@ class PhotoUploadWidget extends StatefulWidget {
       subtitle: subtitle,
       titleStyle: titleStyle,
       subtitleStyle: subtitleStyle,
+      onCreate: onCreate,
       cameraBtnDecoration: cameraBtnDecoration ?? defaultCameraBtnDecoration,
       galleryBtnDecoration: galleryBtnDecoration ?? defaultGalleryBtnDecoration,
       cameraIcon: cameraIcon ??
@@ -147,6 +158,7 @@ class PhotoUploadWidget extends StatefulWidget {
   /// offering maximum control over the widget's appearance and behavior.
   const PhotoUploadWidget.custom({
     super.key,
+    this.onCreate,
     required this.onImagePicked,
     required this.title,
     required this.subtitle,
@@ -174,10 +186,14 @@ class _PhotoUploadWidgetState extends State<PhotoUploadWidget> {
   /// A boolean flag to indicate if an image picking operation is currently in progress.
   bool _isPicking = false;
 
+  /// The controller that manages the widget's state (e.g., clearing the image).
+  late final PhotoUploadController _controller;
+
   /// Handles the image picking process from a specified [ImageSource].
   ///
-  /// Sets `_isPicking` to true, attempts to pick an image, updates `_pickedImage`,
-  /// and calls `widget.onImagePicked`. Ensures `_isPicking` is reset in `finally` block.
+  /// This method prevents multiple simultaneous image picking actions.
+  /// It updates the `_pickedImage` state and calls `widget.onImagePicked` when
+  /// an image is successfully selected, or passes `null` if the user cancels.
   Future<void> _pickImage(ImageSource source) async {
     if (_isPicking) return; // Prevent multiple simultaneous picks
 
@@ -199,8 +215,7 @@ class _PhotoUploadWidgetState extends State<PhotoUploadWidget> {
         widget.onImagePicked(null);
       }
     } catch (e) {
-      // Log the error for debugging purposes. In a real app, consider
-      // displaying a user-friendly message (e.g., using a SnackBar).
+      // Log the error for debugging purposes.
       debugPrint('Error picking image: $e');
       widget.onImagePicked(null);
     } finally {
@@ -212,13 +227,24 @@ class _PhotoUploadWidgetState extends State<PhotoUploadWidget> {
 
   /// Clears the currently picked image.
   ///
-  /// Sets `_pickedImage` to null and triggers the `onImagePicked` callback
-  /// with a null value.
+  /// This method resets the `_pickedImage` to `null` and calls `widget.onImagePicked`
+  /// with `null` to notify the parent widget that the image was cleared.
   void _clearImage() {
     setState(() {
       _pickedImage = null;
     });
     widget.onImagePicked(null);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PhotoUploadController(clearImage: _clearImage);
+
+    // Call onCreate to notify the parent widget about the controller
+    if (widget.onCreate != null) {
+      widget.onCreate!(_controller);
+    }
   }
 
   @override
@@ -243,8 +269,7 @@ class _PhotoUploadWidgetState extends State<PhotoUploadWidget> {
                     _pickedImage!,
                     height: 150,
                     width: double.infinity,
-                    fit: BoxFit
-                        .cover, // Use BoxFit.cover for better image scaling
+                    fit: BoxFit.cover, // Use BoxFit.cover for better image scaling
                   )
                 else ...[
                   // Default icon or custom icon when no image is picked
@@ -276,27 +301,27 @@ class _PhotoUploadWidgetState extends State<PhotoUploadWidget> {
                 _isPicking
                     ? const CircularProgressIndicator()
                     : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              onPressed: () => _pickImage(ImageSource.camera),
-                              icon: widget.cameraIcon,
-                              label: const Text('Camera'),
-                              style: widget.cameraBtnDecoration,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: OutlinedButton.icon(
-                              onPressed: () => _pickImage(ImageSource.gallery),
-                              icon: widget.galleryIcon,
-                              label: const Text('Upload'),
-                              style: widget.galleryBtnDecoration,
-                            ),
-                          ),
-                        ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () => _pickImage(ImageSource.camera),
+                        icon: widget.cameraIcon,
+                        label: const Text('Camera'),
+                        style: widget.cameraBtnDecoration,
                       ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed: () => _pickImage(ImageSource.gallery),
+                        icon: widget.galleryIcon,
+                        label: const Text('Upload'),
+                        style: widget.galleryBtnDecoration,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -309,8 +334,7 @@ class _PhotoUploadWidgetState extends State<PhotoUploadWidget> {
                 color: Colors.transparent, // Make Material transparent
                 child: InkWell(
                   onTap: _clearImage,
-                  borderRadius:
-                      BorderRadius.circular(20), // Match container's radius
+                  borderRadius: BorderRadius.circular(20), // Match container's radius
                   child: Container(
                     height: 40,
                     width: 40,
@@ -319,8 +343,7 @@ class _PhotoUploadWidgetState extends State<PhotoUploadWidget> {
                       color: Colors.blueGrey.withAlpha(30),
                       border: Border.all(color: Colors.blueGrey, width: 2),
                     ),
-                    child: const Icon(Icons.close,
-                        size: 18, color: Colors.blueGrey),
+                    child: const Icon(Icons.close, size: 18, color: Colors.blueGrey),
                   ),
                 ),
               ),

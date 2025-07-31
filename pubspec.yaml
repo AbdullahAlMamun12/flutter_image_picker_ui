@@ -1,6 +1,6 @@
 name: flutter_image_picker_ui
 description: A Flutter package for a UI to pick or take images
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/AbdullahAlMamun12/flutter_image_picker_ui
 repository: https://github.com/AbdullahAlMamun12/flutter_image_picker_ui
 issue_tracker: https://github.com/AbdullahAlMamun12/flutter_image_picker_ui/issues
@@ -26,3 +26,7 @@ flutter:
     - assets/gallery_upload.png
     - assets/camera_outline.png
     - assets/camera_fill.png
+
+screenshots:
+  - description: "Photo upload UI with options to pick from gallery or take a photo"
+    path: screenshots/demo.gif

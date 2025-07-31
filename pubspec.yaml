@@ -28,7 +28,7 @@ flutter:
     - assets/camera_fill.png
 topics:
   - image-picker
-  - image-picker ui
+  - image-picker-ui
   - image-picker-widget
 
 screenshots:
